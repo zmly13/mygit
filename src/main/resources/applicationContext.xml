@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:jdbc="http://www.springframework.org/schema/jdbc" xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns:jpa="http://www.springframework.org/schema/data/jpa" xmlns:task="http://www.springframework.org/schema/task"
+       xsi:schemaLocation="
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+		http://www.springframework.org/schema/data/jpa
+		http://www.springframework.org/schema/data/jpa/spring-jpa.xsd">
+
+
+        <bean id="dataSource" class="com.zaxxer.hikari.HikariDataSource">
+            <property name="driverClassName" value="com.mysql.jdbc.Driver"/>
+            <property name="jdbcUrl" value="jdbc:mysql://localhost:3306/springDatajpa"/>
+            <property name="username" value="root"/>
+            <property name="password" value="123"/>
+        </bean>
+    <!--把entityManagerFaction交给spring管理-->
+        <bean id="entityManagerFaction" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+            <property name="dataSource" ref="dataSource"/>
+            <!--扫描实体类所在包-->
+            <property name="packagesToScan" value="com.itcast.pojo"/>
+            <!--jap供应商-->
+            <property name="persistenceProvider">
+                <bean class="org.hibernate.jpa.HibernatePersistenceProvider"/>
+            </property>
+            <property name="jpaVendorAdapter">
+                <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter">
+                    <property name="generateDdl" value="true"/>
+                    <property name="database" value="MYSQL"/>
+                    <property name="databasePlatform" value="org.hibernate.dialect.MySQLDialect"/>
+                    <property name="showSql" value="true"/>
+                 </bean>
+            </property>
+            <property name="jpaDialect">
+                <bean class="org.springframework.orm.jpa.vendor.HibernateJpaDialect"/>
+            </property>
+        </bean>
+    <bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+        <property name="entityManagerFactory" ref="entityManagerFaction"/>
+    </bean>
+
+<jpa:repositories base-package="com.itcast.dao" transaction-manager-ref="transactionManager"
+                  entity-manager-factory-ref="entityManagerFaction"/>
+        </beans>
