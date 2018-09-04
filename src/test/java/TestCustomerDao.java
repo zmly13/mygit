@@ -21,12 +21,6 @@ public class TestCustomerDao {
     @Autowired
     private CustomerDao customerDao;
     @Test
-    public void text1() {
-        Customer customer = new Customer();
-        customer.setCustName("三牛");
-        customerDao.save(customer);
-    }
-    @Test
     public void text2() {
         Customer customer = customerDao.findById(3L).orElse(null);
         System.out.println(customer);
@@ -52,13 +46,6 @@ public class TestCustomerDao {
         System.out.println(customer);
     }
 
-    @Test
-    public void text5() {
-        List<Customer> customers = customerDao.findAll();
-        for (Customer customer : customers) {
-            System.out.println(customer);
-        }
-    }
 
     @Test
     public void text6() {
