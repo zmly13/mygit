@@ -103,13 +103,6 @@ public class TestCustomerDao {
     }
 
 
-    @Test
-    public void text13() {
-        Customer custName = customerDao.findByCustName("刘亦菲");
-        System.out.println(custName);
-
-
-    }
 
 
     @Test

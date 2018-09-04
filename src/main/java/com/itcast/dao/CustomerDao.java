@@ -24,10 +24,9 @@ public interface CustomerDao extends JpaRepository<Customer,Long>,JpaSpecificati
 
     List<Customer> findByCustNameNotLikeOrCustIndustryIsNotNull(String custName);
 
-    Customer findByCustName(String custName);
 
 
-    Customer findByCustAddress(String custName);
+    Customer findByCustIndustry(String custName);
 
 
 }
